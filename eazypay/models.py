@@ -44,7 +44,6 @@ class Employer(db.Model):
     __tablename__ = 'EmployersTable'
     name = db.Column(db.String(100))
     email = db.Column(db.String(100), primary_key=True)
-    password = db.Column(db.String(100))
     address = db.Column(db.String(100))
     uid = db.Column(db.String(100))
 
@@ -54,6 +53,5 @@ class Freelancer(db.Model):
     __tablename__ = 'FreelancersTable'
     name = db.Column(db.String(100))
     email = db.Column(db.String(100), primary_key=True)
-    password = db.Column(db.String(100))
     address = db.Column(db.String(100))
     uid = db.Column(db.String(100))

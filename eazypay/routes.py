@@ -48,15 +48,14 @@ def catch_freelancer_register():
 
 @app.route('/backend/empprofile', methods=["POST", "GET"])
 def employer_profile():
+    # print(content)
     content = request.get_json()
-    print("content is : ", content)
     name = content["name"]
     email = content["email"]
     address = content["address"]
     uid = content["uid"]
 
     emp = Employer(name=name, email=email, address=address, uid=uid)
-    # print("emp : ", emp)
     db.session.add(emp)
     db.session.commit()
     return 'New employer added', 200
@@ -82,14 +81,11 @@ def freelancer_profile():
 @app.route('/backend/freelogin', methods=["POST", "GET"])
 def freelancer_login():
     content = request.get_json()
-    print(content)
+    # print(content)
     email = content["email"]
     uid = content["uid"]
 
-    free = Freelancer.query.filter(
-        Freelancer.email == email, Freelancer.uid == uid).first()
-    if not free:
-        return 'Invalid Credential', 400
+    free = Freelancer.query.filter(Freelancer.uid == uid).first()
 
     address = free.address
     current_balance = getAccountBalance(address)
@@ -131,20 +127,31 @@ def employer_login():
 @app.route('/backend/freeworking', methods=["GET", "POST"])
 def freelancer_working():
     content = request.get_json()
-    print(content)
+    # print(content)
     emp_email = content["email"]
-    print("Email is : ", emp_email)
+    uid = content["uid"]
 
-    emp = Employer.query.filter(Employer.email == emp_email).first()
+    emp = Employer.query.filter(Employer.uid == uid).first()
     emp_address = emp.address
+
+    current_balance = getAccountBalance(emp_address)
+    current_balance = current_balance/(10**17)
 
     rows = CurrentProjects.query.filter(
         CurrentProjects.emp_email == emp_email).all()
 
-    print(rows)
+    # print(rows)
+
 
     List = []
     Dict = {}
+
+    Dict = {
+        'name': emp.name,
+        'email': emp_email,
+        'current_balance': current_balance
+    }
+    List.append(Dict)
 
     for row in rows:
         Dict = {
@@ -173,14 +180,16 @@ def freelancer_payment():
         print(content)
         sno = content["sno"]
         no_of_leaves = content["no_of_leaves"]
-        rate_for_leave_deduct = content["rate_for_leave_deduct"]
         amount_paid = content["amount_paid"]
         private_key = content["private_key"]
 
         row = CurrentProjects.query.filter(CurrentProjects.sno == sno).first()
+        print(row)
 
-        hex_tr = transferMoneyToFreelancer(
-            row.emp_address, row.free_address, private_key, no_of_leaves)
+        # hex_tr = transferMoneyToFreelancer(
+        #     row.emp_address, row.free_address, private_key, no_of_leaves)
+
+        hex_tr = transaction(row.emp_address, row.free_address, private_key, amount_paid)
 
         Dict = {'hex': hex_tr}
         List = []
@@ -198,7 +207,7 @@ def freelancer_payment():
 @app.route('/backend/addproject', methods=["POST", "GET"])
 def add_project():
     content = request.get_json()
-    print(content)
+    # print(content)
     emp_name = content["emp_name"]
     emp_email = content["emp_email"]
     free_name = content["free_name"]
@@ -231,8 +240,8 @@ def add_project():
     # hex_tr = transaction(emp_address, free_address,
     #                      private_key, proposed_amount)
 
-    # db.session.add(proj)
-    # db.session.commit()
+    db.session.add(proj)
+    db.session.commit()
 
     # Dict = {'hex': hex_tr}
     # List = []
@@ -245,13 +254,28 @@ def add_project():
 @app.route('/backend/projectworking', methods=["GET", "POST"])
 def project_working():
     content = request.get_json()
-    free_email = content["free_email"]
+    print(content)
+    free_email = content["email"]
+    uid = content["uid"]
 
-    rows = CurrentProjects.query.filter(
-        CurrentProjects.free_email == free_email).all()
+    free = Freelancer.query.filter(Freelancer.uid == uid).first()
+
+    address = free.address
+    current_balance = getAccountBalance(address)
+    current_balance = current_balance/(10**17)
 
     List = []
     Dict = {}
+
+    Dict = {
+        'name': free.name,
+        'email': free.email,
+        'current_balance': current_balance
+    }
+    List.append(Dict)
+
+    rows = CurrentProjects.query.filter(
+        CurrentProjects.free_email == free_email).all()
 
     for row in rows:
         Dict = {
@@ -274,7 +298,7 @@ def project_working():
 def transfer():
     try:
         content = request.get_json()
-        print(content)
+        # print(content)
         name = content["name"]
         free_address = content["sendersAddress"]
         amount = content["amount"]
