@@ -1,0 +1,15 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: black;
+}
+input,
+textarea {
+  border: 1px solid #00000050;
+  padding: 10px;
+  margin: 5px;
+  outline: none;
+  width: 600px;
+}

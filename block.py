@@ -35,8 +35,8 @@ def transaction(account1, account2, privateKey, money):
     }
     signed_tx = web3.eth.account.signTransaction(tx, privateKey)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    print(web3.toHex(tx_hash))
     return web3.toHex(tx_hash)
-#   print(web3.toHex(tx_hash))
 
 
 def transferMoneyToFreelancer(companyAddress, freelancerAddress, privateKey, delay):

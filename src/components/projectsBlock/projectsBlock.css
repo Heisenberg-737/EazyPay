@@ -1,0 +1,16 @@
+.projectsBlock {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
+  height: max-content;
+  width: 350px;
+  border-radius: 20px;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.projectsBlock h2 {
+  margin-top: 0px;
+}
