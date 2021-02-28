@@ -48,7 +48,6 @@ def catch_freelancer_register():
 
 @app.route('/backend/empprofile', methods=["POST", "GET"])
 def employer_profile():
-    # print(content)
     content = request.get_json()
     name = content["name"]
     email = content["email"]
@@ -64,7 +63,6 @@ def employer_profile():
 @app.route('/backend/freeprofile', methods=["POST", "GET"])
 def freelancer_profile():
     content = request.get_json()
-    print(content)
     name = content["name"]
     email = content["email"]
     address = content["address"]
@@ -81,7 +79,6 @@ def freelancer_profile():
 @app.route('/backend/freelogin', methods=["POST", "GET"])
 def freelancer_login():
     content = request.get_json()
-    # print(content)
     email = content["email"]
     uid = content["uid"]
 
@@ -127,7 +124,6 @@ def employer_login():
 @app.route('/backend/freeworking', methods=["GET", "POST"])
 def freelancer_working():
     content = request.get_json()
-    # print(content)
     emp_email = content["email"]
     uid = content["uid"]
 
@@ -135,13 +131,10 @@ def freelancer_working():
     emp_address = emp.address
 
     current_balance = getAccountBalance(emp_address)
-    current_balance = current_balance/(10**17)
+    current_balance = current_balance/(10**18)
 
     rows = CurrentProjects.query.filter(
         CurrentProjects.emp_email == emp_email).all()
-
-    # print(rows)
-
 
     List = []
     Dict = {}
@@ -177,17 +170,12 @@ def freelancer_working():
 def freelancer_payment():
     try:
         content = request.get_json()
-        print(content)
         sno = content["sno"]
         no_of_leaves = content["no_of_leaves"]
         amount_paid = content["amount_paid"]
         private_key = content["private_key"]
 
         row = CurrentProjects.query.filter(CurrentProjects.sno == sno).first()
-        print(row)
-
-        # hex_tr = transferMoneyToFreelancer(
-        #     row.emp_address, row.free_address, private_key, no_of_leaves)
 
         hex_tr = transaction(row.emp_address, row.free_address, private_key, amount_paid)
 
@@ -207,7 +195,6 @@ def freelancer_payment():
 @app.route('/backend/addproject', methods=["POST", "GET"])
 def add_project():
     content = request.get_json()
-    # print(content)
     emp_name = content["emp_name"]
     emp_email = content["emp_email"]
     free_name = content["free_name"]
@@ -237,24 +224,16 @@ def add_project():
     contract.functions.setVals(
         int(rate_day_hour), int(no_days_hours), int(rate_for_leave_deduct)).transact()
 
-    # hex_tr = transaction(emp_address, free_address,
-    #                      private_key, proposed_amount)
-
     db.session.add(proj)
     db.session.commit()
 
-    # Dict = {'hex': hex_tr}
-    # List = []
-    # List.append(Dict)
-
-    # return json.dumps(List)
     return "Project Added Successfully", 200
 
 
 @app.route('/backend/projectworking', methods=["GET", "POST"])
 def project_working():
     content = request.get_json()
-    print(content)
+
     free_email = content["email"]
     uid = content["uid"]
 
@@ -262,7 +241,7 @@ def project_working():
 
     address = free.address
     current_balance = getAccountBalance(address)
-    current_balance = current_balance/(10**17)
+    current_balance = current_balance/(10**18)
 
     List = []
     Dict = {}
@@ -298,7 +277,6 @@ def project_working():
 def transfer():
     try:
         content = request.get_json()
-        # print(content)
         name = content["name"]
         free_address = content["sendersAddress"]
         amount = content["amount"]
@@ -318,7 +296,6 @@ def transfer():
 @app.route('/backend/freeproject', methods=["GET", "POST"])
 def freelancer_project():
     content = request.get_json()
-    print(content)
     free_email = content["email"]
 
     rows = CurrentProjects.query.filter(
@@ -339,7 +316,5 @@ def freelancer_project():
             'proposed_amount': row.proposed_amount
         }
         List.append(Dict)
-
-    print(List)
 
     return json.dumps(List)
