@@ -314,3 +314,32 @@ def transfer():
         return json.dumps(List)
     except:
         return 'Payment Unsuccessful', 400
+
+@app.route('/backend/freeproject', methods=["GET", "POST"])
+def freelancer_project():
+    content = request.get_json()
+    print(content)
+    free_email = content["email"]
+
+    rows = CurrentProjects.query.filter(
+        CurrentProjects.free_email == free_email).all()
+
+    List = []
+
+    for row in rows:
+        Dict = {
+            'sno': row.sno,
+            'emp_name': row.emp_name,
+            'emp_email': row.emp_email,
+            'project': row.project,
+            'date_started': row.date_started,
+            'deadline': row.deadline,
+            'days_hours_work': row.days_hours_work,
+            'rate_day_hour': row.rate_day_hour,
+            'proposed_amount': row.proposed_amount
+        }
+        List.append(Dict)
+
+    print(List)
+
+    return json.dumps(List)
