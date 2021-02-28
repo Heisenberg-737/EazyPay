@@ -20,7 +20,7 @@ Libraries & dependencies-ReactJS,web3,Axios
 Installation steps-
 BLOCKCHAIN:-
 Download ganache from https://www.trufflesuite.com/ganache this will act as the local blockchain node, with trial accounts that are pre-funded with ether. Note that any actual transactions in a blockchain will cost a gas fee, which costs ether, which in turn costs real money.
-To program smart contract Remix ide was used(https://remix.ethereum.org/), the smart contracts will be made using the solidity programming language Download web3 python library by typing "pip install web3" in the terminal or the command line. This will enable communication between our smart contract and our Flask backend
+To program smart contract Remix ide was used(https://remix.ethereum.org/), the smart contracts will be made using the solidity programming language Download web3 python library by typing "pip install web3" in the terminal or the command line. This will enable communication between our smart contract and our Flask backend. \
 FRONTEND:-
 Use npm install to install all the dependencies. Use npm start on the terminal to start the localhost.
 BACKEND:-
