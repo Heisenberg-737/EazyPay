@@ -1,24 +1,24 @@
 Title - EazyPay
 
-Description- \
-EazyPay is a payment gateway based on blockchain technology that ensures easy & smooth transfer of money from employer/company to the freelancer as well as from the freelancer to his/her family members without any delay. \
+Description- 
+EazyPay is a payment gateway based on blockchain technology that ensures easy & smooth transfer of money from employer/company to the freelancer as well as from the freelancer to his/her family members without any delay. 
 
-Tech Stack- \
+Tech Stack- 
 
-Languages used-HTML,CSS,JS,Python,SQL \
-Frontend- \
+Languages used-HTML,CSS,JS,Python,SQL 
+Frontend- 
 We developed a Responsive Application with high caching using ReactJs library with the Hooks interface. We have also added animations to make the platform look more interactive & user-friendly. We have also used some of the npm packages in order to add more functionality to our project. \
 
-Backend- \
+Backend- 
 The backend is built on Python's Flask framework. We made use of the SQLite database. We connected ReactJS to Flask and SQLite using the Axios bundle in the Node Library. We also used the web3 library to connect our smart contract with our actual application which made use of languages like Js & Python. \
 
-Blockchain- \
-We made use of the solidity language to write the smart contract & the Ganache local blockchain network for testing purposes and we have deployed the smart contract on the Ethereum network \
+Blockchain- 
+We made use of the solidity language to write the smart contract & the Ganache local blockchain network for testing purposes and we have deployed the smart contract on the Ethereum network 
 
 Libraries & dependencies-ReactJS,web3,Axios, Flask, Flask-SQLAlchemy \
 
-Installation steps- \
-BLOCKCHAIN:- \
+Installation steps- 
+BLOCKCHAIN:- 
 Download ganache from https://www.trufflesuite.com/ganache this will act as the local blockchain node, with trial accounts that are pre-funded with ether. Note that any actual transactions in a blockchain will cost a gas fee, which costs ether, which in turn costs real money.
 To program smart contract Remix ide was used(https://remix.ethereum.org/), the smart contracts will be made using the solidity programming language Download web3 python library by typing "pip install web3" in the terminal or the command line. This will enable communication between our smart contract and our Flask backend. \
 FRONTEND:-
